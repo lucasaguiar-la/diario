@@ -1,14 +1,44 @@
+:root {
+    --primary-clr: #00ad76bd;
+    --background-primary: #f1f5f9;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
+
+.hero-section {
+    background-color: var(--background-primary);
+    padding: 4rem 0;
+}
+
+.navbar-nav .text-primary, .btn-outline-primary {
+    color: var(--primary-clr) !important;
+    border-color: var(--primary-clr);
+    transition: 0.5s;
+}
+.btn-outline-primary:hover {
+    background-color: #8dffdb91;
+    border-color: var(--primary-clr);
+}
+.row .btn-primary {
+    background-color: var(--primary-clr);
+    border-color: var(--primary-clr);
+}
+.card-body i {
+    color: var(--primary-clr) !important;
+}
+
 .footer {
     margin-top: auto;
-    background-color: #f8f9fa;
+    background-color: var(--background-primary);
     padding: 1rem 0;
-}
-.hero-section {
-    background-color: #f1f5f9;
-    padding: 4rem 0;
 }
