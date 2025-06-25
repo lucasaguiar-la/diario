@@ -1,13 +1,13 @@
-package main.java.com.login.meudiario;
+package com.meudiario.Diary;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MeudiarioApplication {
+public class DiaryApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MeudiarioApplication.class, args);
+		SpringApplication.run(DiaryApplication.class, args);
 	}
 
 }
