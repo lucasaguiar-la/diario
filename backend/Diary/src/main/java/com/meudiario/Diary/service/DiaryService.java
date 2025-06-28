@@ -15,4 +15,9 @@ public class DiaryService {
         return diaryRepository.save(user);
     }
 
+    public User findUser(int id) {
+        return diaryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado com o id: " + id));
+    }
+
 }

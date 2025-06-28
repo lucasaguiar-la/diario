@@ -20,4 +20,10 @@ public class DiaryController {
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
+    @GetMapping("/users/{id}")
+    public ResponseEntity<User> findUser(@PathVariable int id) {
+        User user = diaryService.findUser(id);
+        return ResponseEntity.ok(user);
+    }
+
 }
