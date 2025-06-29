@@ -1,23 +1,29 @@
 package com.meudiario.Diary.service;
 
 import com.meudiario.Diary.model.User;
-import com.meudiario.Diary.repository.DiaryRepository;
+import com.meudiario.Diary.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-public class DiaryService {
+public class UserService {
 
     @Autowired
-    private DiaryRepository diaryRepository;
+    private UserRepository userRepository;
 
     public User createUser(User user) {
-        return diaryRepository.save(user);
+        return userRepository.save(user);
     }
 
     public User findUser(int id) {
-        return diaryRepository.findById(id)
+        return userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado com o id: " + id));
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
 }
