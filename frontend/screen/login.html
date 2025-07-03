@@ -4,10 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Diário de Emoções</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="shortcut icon" href="../images/main-logo.ico" type="image/x-icon">
     <link rel="stylesheet" href="../style/index.css">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <!-- Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 </head>
 <body>
     <!-- Navbar -->
@@ -18,37 +23,41 @@
     </nav>
 
     <!-- Login Section -->
-    <section class="py-5">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-6 col-lg-4">
-                    <div class="card shadow">
-                        <div class="card-body p-4">
-                            <h2 class="text-center mb-4">Login</h2>
-                            <form>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">E-mail</label>
-                                    <input type="email" class="form-control" id="email" required>
+    <div id="app">
+        <section class="py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card shadow">
+                            <div class="card-body p-4">
+                                <h2 class="text-center mb-4">Login</h2>
+                                <form @submit.prevent="handleLogin">
+                                    <div class="alert alert-danger" v-if="errorMessage">{{ errorMessage }}</div>
+
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">E-mail</label>
+                                        <input type="email" class="form-control" id="email" v-model="email" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Senha</label>
+                                        <input type="password" class="form-control" id="password" v-model="password" required>
+                                    </div>
+                                    <div class="mb-3 form-check">
+                                        <input type="checkbox" class="form-check-input" id="remember">
+                                        <label class="form-check-label" for="remember">Lembrar de mim</label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">Entrar</button>
+                                </form>
+                                <div class="text-center mt-3">
+                                    <p class="mb-0">Ainda não tem uma conta? <a href="register.html" class="text-decoration-none">Registre-se</a></p>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Senha</label>
-                                    <input type="password" class="form-control" id="password" required>
-                                </div>
-                                <div class="mb-3 form-check">
-                                    <input type="checkbox" class="form-check-input" id="remember">
-                                    <label class="form-check-label" for="remember">Lembrar de mim</label>
-                                </div>
-                                <button type="submit" class="btn btn-primary w-100">Entrar</button>
-                            </form>
-                            <div class="text-center mt-3">
-                                <p class="mb-0">Ainda não tem uma conta? <a href="register.html" class="text-decoration-none">Registre-se</a></p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
@@ -62,5 +71,47 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        new Vue({
+                el: '#app',
+                data: {
+                    email: '',
+                    password: '',
+                    errorMessage: ''
+                },
+                methods: {
+                    handleLogin() {
+                        this.errorMessage = '';
+                        const loginData = {
+                            email: this.email,
+                            password: this.password
+                        };
+
+                        fetch('http://localhost:8081/api/login', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(loginData)
+                        })
+                        .then(response => {
+                            if(!response.ok) {
+                                return response.json().them(err => { throw new Error('Credenciais inválidas.') });
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            localStorage.setItem('authToken', data.acessToken);
+                            window.location.href = 'dashboard.html';
+                        })
+                        .catch(error => {
+                            this.errorMessage = 'Falha no login. Verifique seu e-mail e senha.';
+                            console.error('Erro no login:', error);
+                        });
+                    }
+                }
+            });
+    </script>
 </body>
 </html>
