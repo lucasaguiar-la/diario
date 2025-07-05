@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class JwtAuthenticationResponse {
-    private String token;
-    private String refreshToken;
+public class SignUpRequest {
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String password;
 }
-
