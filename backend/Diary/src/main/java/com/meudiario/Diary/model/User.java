@@ -3,16 +3,20 @@ package com.meudiario.Diary.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
 
-@Setter
-@Getter
+@Data // Inclui @Getter, @Setter, @ToString, @EqualsAndHashCode
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
@@ -22,7 +26,10 @@ public class User implements UserDetails {
     private int id;
 
     @NotBlank
-    private String name;
+    private String firstName;
+
+    @NotBlank
+    private String lastName;
 
     @Email
     @NotBlank
@@ -61,6 +68,4 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 }
-
