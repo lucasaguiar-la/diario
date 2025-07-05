@@ -88,7 +88,7 @@
                             password: this.password
                         };
 
-                        fetch('http://localhost:8081/api/login', {
+                        fetch('http://localhost:8081/api/auth/signin', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
@@ -97,12 +97,12 @@
                         })
                         .then(response => {
                             if(!response.ok) {
-                                return response.json().them(err => { throw new Error('Credenciais inválidas.') });
+                                throw new Error('Credenciais inválidas.');
                             }
                             return response.json();
                         })
                         .then(data => {
-                            localStorage.setItem('authToken', data.acessToken);
+                            localStorage.setItem('jwtToken', data.token);
                             window.location.href = 'dashboard.html';
                         })
                         .catch(error => {
